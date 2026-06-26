@@ -13,25 +13,34 @@ const otherMsg = encodeURIComponent(
   "Hi! I'd like to order a gas brand not listed on your site. Please advise on availability."
 );
 
+import heroBg from "@/assets/hero-bg.png";
+
 export default function BrandsAvailable() {
   const { brands } = useBrands({ onlyActive: true });
 
   return (
-    <section id="brands" className="py-16 sm:py-24 bg-gray-50/50 border-t border-gray-100">
-      <div className="container mx-auto px-4">
+    <section id="brands" className="relative py-20 sm:py-28 overflow-hidden border-t border-gray-800">
+      {/* Immersive Dark Background */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-fixed opacity-20"
+        style={{ backgroundImage: `url(${heroBg})` }}
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#0F1F3D]/95 to-[#0F1F3D]/90" />
+      
+      <div className="relative container mx-auto px-4 z-10">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <span className="text-[#E85D04] font-bold text-[0.8rem] uppercase tracking-widest">
+          <span className="text-[#FFB703] font-bold text-[0.8rem] uppercase tracking-widest">
             Complete Inventory
           </span>
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-[#0F1F3D] mt-3 mb-4">
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-white mt-3 mb-4 drop-shadow-md">
             Available Brands
           </h2>
-          <p className="text-gray-500 text-lg max-w-2xl mx-auto">
+          <p className="text-white/80 text-lg max-w-2xl mx-auto">
             Tap your preferred brand to order it instantly via WhatsApp. Fast, reliable, and always in stock.
           </p>
         </motion.div>
