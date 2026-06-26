@@ -4,53 +4,58 @@ const WA_PRICE = "https://wa.me/254722446378?text=Hi%21%20I%27d%20like%20to%20kn
 export default function LoyaltyOffer() {
   return (
     <section
-      className="relative overflow-hidden"
-      style={{ background: "linear-gradient(135deg, #FFB703 0%, #E85D04 100%)", padding: "48px 6%" }}
+      className="relative overflow-hidden py-24 sm:py-32"
+      style={{ background: "linear-gradient(135deg, #0F1F3D 0%, #1a365d 100%)" }}
     >
-      <div
-        className="absolute inset-0"
+      {/* Decorative premium background elements */}
+      <div className="absolute inset-0 opacity-10"
         style={{
-          opacity: 0.06,
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='2' cy='2' r='1.5' fill='white'/%3E%3C/svg%3E")`,
-          backgroundRepeat: "repeat",
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20.5V18H0v-2h20v-2H0v-2h20v-2H0V8h20V6H0V4h20V2H0V0h22v20h2V0h2v20h2V0h2v20h2V0h2v20h2V0h2v20h2v2H20v-1.5zM0 20h2v20H0V20zm4 0h2v20H4V20zm4 0h2v20H8V20zm4 0h2v20h-2V20zm4 0h2v20h-2V20zm4 4h20v2H20v-2zm0 4h20v2H20v-2zm0 4h20v2H20v-2zm0 4h20v2H20v-2z' fill='%23FFFFFF' fill-rule='evenodd'/%3E%3C/svg%3E")`,
         }}
       />
-      <div className="container mx-auto relative z-10">
-        <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#FFB703] to-transparent opacity-30" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#E85D04] to-transparent opacity-30" />
+
+      <div className="container mx-auto relative z-10 px-4">
+        <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
           {/* Loyalty card */}
-          <div className="scroll-reveal bg-white rounded-[20px] p-7 hover-card transition-all duration-300 text-center">
-            <div className="text-[2.5rem] mb-2">🎁</div>
-            <h3 className="font-extrabold text-secondary text-[1.3rem] mb-1">Free Burner Replacement</h3>
-            <p className="text-foreground/80 text-[0.9rem] italic mb-3">For Our Loyal Customers</p>
-            <p className="text-foreground text-[0.88rem] leading-[1.7] mb-3">
+          <div className="scroll-reveal bg-white/5 backdrop-blur-xl rounded-[32px] p-8 sm:p-12 border border-white/10 hover:bg-white/10 transition-all duration-500 text-center shadow-2xl relative group">
+            <div className="absolute -top-8 left-1/2 -translate-x-1/2 w-16 h-16 bg-gradient-to-br from-[#FFB703] to-[#E85D04] rounded-full flex items-center justify-center text-3xl shadow-lg border-4 border-[#0F1F3D] group-hover:scale-110 transition-transform duration-500">
+              🎁
+            </div>
+            <h3 className="font-extrabold text-white text-2xl mt-4 mb-2">Free Burner Replacement</h3>
+            <p className="text-[#FFB703] font-bold text-sm uppercase tracking-widest mb-6 drop-shadow-sm">For Our Loyal Customers</p>
+            <p className="text-white/80 text-[1.05rem] leading-relaxed mb-6">
               We appreciate every customer who keeps coming back. As a thank you, when your gas burner gets spoilt, we may offer you a FREE replacement burner — our way of saying thank you for your loyalty and trust.
             </p>
-            <p className="text-muted-foreground italic text-[0.78rem] mb-5">
+            <p className="text-white/40 italic text-sm mb-8">
               * Offer available to frequent customers at our discretion. WhatsApp us to find out if you qualify.
             </p>
             <a
               href={WA_LOYALTY}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block bg-whatsapp text-whatsapp-foreground px-6 py-3 rounded-full font-bold text-sm wa-btn transition-all duration-250"
+              className="inline-block bg-[#FFB703] text-[#0F1F3D] hover:bg-white px-8 py-4 rounded-xl font-bold text-[1.05rem] transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1"
             >
               Ask About This Offer
             </a>
           </div>
 
           {/* Pricing card */}
-          <div className="scroll-reveal bg-white rounded-[20px] p-7 hover-card transition-all duration-300 text-center" style={{ transitionDelay: "0.1s" }}>
-            <div className="text-[2.5rem] mb-2">💰</div>
-            <h3 className="font-extrabold text-secondary text-[1.3rem] mb-1">Always Competitive Prices</h3>
-            <p className="text-foreground/80 text-[0.9rem] italic mb-3">Updated Every Day</p>
-            <p className="text-foreground text-[0.88rem] leading-[1.7] mb-5">
+          <div className="scroll-reveal bg-white/5 backdrop-blur-xl rounded-[32px] p-8 sm:p-12 border border-white/10 hover:bg-white/10 transition-all duration-500 text-center shadow-2xl relative group" style={{ transitionDelay: "0.1s" }}>
+            <div className="absolute -top-8 left-1/2 -translate-x-1/2 w-16 h-16 bg-gradient-to-br from-[#16A34A] to-[#15803d] rounded-full flex items-center justify-center text-3xl shadow-lg border-4 border-[#0F1F3D] group-hover:scale-110 transition-transform duration-500">
+              💰
+            </div>
+            <h3 className="font-extrabold text-white text-2xl mt-4 mb-2">Always Competitive Prices</h3>
+            <p className="text-[#16A34A] font-bold text-sm uppercase tracking-widest mb-6 drop-shadow-sm">Updated Every Day</p>
+            <p className="text-white/80 text-[1.05rem] leading-relaxed mb-8 pb-8 border-b border-white/10">
               Gas prices change regularly and we make sure ours stay among the best in Karatina and its environs. We supply all brands at competitive prices — whether you need 6kg for home or 13kg for your restaurant.
             </p>
             <a
               href={WA_PRICE}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block bg-primary text-primary-foreground px-6 py-3 rounded-full font-bold text-sm hover:bg-[#c94e00] hover:-translate-y-[2px] transition-all duration-250"
+              className="inline-block bg-white text-[#0F1F3D] hover:bg-[#16A34A] hover:text-white px-8 py-4 rounded-xl font-bold text-[1.05rem] transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1"
             >
               WhatsApp for Today's Price
             </a>
