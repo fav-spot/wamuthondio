@@ -17,7 +17,7 @@ export default function BrandsAvailable() {
   const { brands } = useBrands({ onlyActive: true });
 
   return (
-    <section id="brands" className="py-16 sm:py-24 bg-gradient-to-b from-white to-orange-50/30">
+    <section id="brands" className="py-16 sm:py-24 bg-gray-50/50 border-t border-gray-100">
       <div className="container mx-auto px-4">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
@@ -25,18 +25,18 @@ export default function BrandsAvailable() {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <span className="text-primary font-bold text-[0.78rem] uppercase tracking-wider">
-            What We Sell
+          <span className="text-[#E85D04] font-bold text-[0.8rem] uppercase tracking-widest">
+            Complete Inventory
           </span>
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-foreground mt-2 mb-4">
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-[#0F1F3D] mt-3 mb-4">
             Available Brands
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Tap your preferred brand to order it instantly on WhatsApp. We will confirm availability right away.
+          <p className="text-gray-500 text-lg max-w-2xl mx-auto">
+            Tap your preferred brand to order it instantly via WhatsApp. Fast, reliable, and always in stock.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 max-w-6xl mx-auto">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 max-w-6xl mx-auto">
           {brands.map((b, i) => (
             <motion.a
               key={b.id}
@@ -50,22 +50,20 @@ export default function BrandsAvailable() {
               whileHover={{ 
                 scale: 1.05, 
                 y: -5,
-                boxShadow: `0 12px 30px -5px ${b.brand_colour}50`,
-                borderColor: b.brand_colour 
+                boxShadow: `0 20px 25px -5px ${b.brand_colour}30, 0 8px 10px -6px ${b.brand_colour}30`,
               }}
-              className="group relative flex items-center justify-center h-24 sm:h-28 bg-white border border-gray-100 rounded-2xl shadow-[0_2px_10px_rgba(0,0,0,0.02)] transition-colors duration-300 overflow-hidden"
+              className="group relative flex items-center justify-center h-28 sm:h-32 bg-white rounded-3xl shadow-sm border border-gray-100 transition-all duration-300 overflow-hidden"
             >
               <div 
-                className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300"
+                className="absolute inset-0 opacity-0 group-hover:opacity-5 transition-opacity duration-300"
                 style={{ backgroundColor: b.brand_colour }}
               />
-              {/* Left edge color accent */}
               <div 
-                className="absolute left-0 top-0 bottom-0 w-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                className="absolute bottom-0 left-0 right-0 h-1 transition-all duration-300 transform scale-x-0 group-hover:scale-x-100"
                 style={{ backgroundColor: b.brand_colour }}
               />
               <span 
-                className="font-extrabold text-lg sm:text-xl relative z-10 text-gray-800 transition-colors"
+                className="font-extrabold text-lg sm:text-xl relative z-10 text-gray-700 group-hover:text-gray-900 transition-colors"
               >
                 {b.brand_name}
               </span>
@@ -80,9 +78,9 @@ export default function BrandsAvailable() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             whileHover={{ scale: 1.05, y: -5 }}
-            className="flex items-center justify-center h-24 sm:h-28 bg-gray-50/50 border-2 border-gray-200 border-dashed rounded-2xl text-gray-500 font-semibold hover:bg-orange-50 hover:text-primary hover:border-primary hover:border-solid transition-all duration-300"
+            className="flex items-center justify-center h-28 sm:h-32 bg-transparent border-2 border-gray-200 border-dashed rounded-3xl text-gray-400 font-semibold hover:bg-orange-50 hover:text-[#E85D04] hover:border-[#E85D04] transition-all duration-300"
           >
-            + Other brand
+            + Request Other
           </motion.a>
         </div>
       </div>
