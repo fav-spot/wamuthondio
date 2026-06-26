@@ -37,8 +37,12 @@ const accessories: Cyl[] = [
 
 const palette = ["#DC2626", "#1D4ED8", "#16A34A", "#CA8A04", "#7C3AED", "#0F766E"];
 
-function ProductPod({ c, i, category }: { c: Cyl; i: number; category: string }) {
-  const orderMsg = encodeURIComponent(`Hi, I'd like to order a ${c.brand} ${category}. Please advise on availability and price.`);
+function ProductPod({ c, i, category, price }: { c: Cyl; i: number; category: string; price?: number | null }) {
+  const isCylinder = category !== "Accessory";
+  const orderMsg = encodeURIComponent(
+    `Hi, I'd like to order a ${c.brand} ${isCylinder ? category : ""}. Please advise on ${isCylinder ? "today's price" : "price and availability"}.`
+  );
+
   return (
     <div
       className="scroll-reveal group relative flex flex-col bg-white/95 backdrop-blur-md rounded-3xl border border-white/50 overflow-hidden shadow-lg hover:shadow-[0_30px_50px_-15px_rgba(0,0,0,0.4)] transition-all duration-500 hover:-translate-y-2"
@@ -61,7 +65,6 @@ function ProductPod({ c, i, category }: { c: Cyl; i: number; category: string })
 
       {/* Authentic "Studio Pedestal" Image Area */}
       <div className="relative pt-16 pb-10 px-6 flex-1 flex items-center justify-center bg-gradient-to-b from-white to-gray-50/80">
-        {/* Soft radial shadow under the cylinder to ground it */}
         <div className="absolute bottom-6 w-32 h-6 bg-black/20 rounded-[100%] blur-md group-hover:bg-black/30 group-hover:scale-110 transition-all duration-500" />
         
         {c.image ? (
@@ -78,27 +81,51 @@ function ProductPod({ c, i, category }: { c: Cyl; i: number; category: string })
       </div>
 
       {/* Action Area */}
-      <div className="p-5 border-t border-gray-100 bg-white relative z-20">
-        <h3 className="font-extrabold text-gray-900 text-lg mb-1">{c.brand} {category !== "Accessory" ? category : ""}</h3>
-        <p className="text-sm text-gray-500 mb-4">In stock. Ready for delivery.</p>
+      <div className="p-5 border-t border-gray-100 bg-white relative z-20 flex flex-col justify-between">
+        <div>
+          <h3 className="font-extrabold text-gray-900 text-lg mb-1 line-clamp-1" title={`${c.brand} ${isCylinder ? category : ""}`}>
+            {c.brand} {isCylinder ? category : ""}
+          </h3>
+          
+          {/* Dynamic Pricing / Availability Space */}
+          {isCylinder ? (
+            <p className="text-sm font-semibold text-[#E85D04] mb-4 flex items-center gap-1.5 bg-[#E85D04]/10 w-fit px-2 py-1 rounded-md">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#E85D04] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#E85D04]"></span>
+              </span>
+              Prices update daily
+            </p>
+          ) : (
+            <p className="text-sm font-bold text-[#0F1F3D] mb-4 bg-gray-50 w-fit px-3 py-1 rounded-md border border-gray-100">
+              {price ? `KSh ${price.toLocaleString()}` : "Price via WhatsApp"}
+            </p>
+          )}
+        </div>
         
         <a
           href={`${WA}${orderMsg}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center justify-center gap-2 w-full bg-[#0F1F3D] hover:bg-[#E85D04] text-white font-bold py-3.5 px-4 rounded-xl transition-colors duration-300 shadow-md"
+          className="flex items-center justify-center gap-2 w-full bg-[#0F1F3D] hover:bg-[#E85D04] text-white font-bold py-3.5 px-4 rounded-xl transition-colors duration-300 shadow-md group-hover:shadow-lg"
         >
           <ShoppingCart size={18} />
-          Add to Order
+          {isCylinder ? "Get Today's Price" : "Order Now"}
         </a>
       </div>
     </div>
   );
 }
 
-function SectionHeader({ subtitle, title, desc, isDark = false }: { subtitle: string, title: string, desc: string, isDark?: boolean }) {
+function SectionHeader({ subtitle, title, desc, isDark = false, showDailyPriceBanner = false }: { subtitle: string, title: string, desc: string, isDark?: boolean, showDailyPriceBanner?: boolean }) {
   return (
-    <div className="text-center mb-14 scroll-reveal relative z-20">
+    <div className="text-center mb-14 scroll-reveal relative z-20 flex flex-col items-center">
+      {showDailyPriceBanner && (
+        <div className="mb-6 inline-flex items-center gap-2 bg-[#FFB703]/20 border border-[#FFB703]/50 backdrop-blur-sm text-[#FFB703] px-4 py-2 rounded-full shadow-lg animate-fade-in">
+          <span className="text-lg">🔥</span>
+          <span className="text-sm font-bold tracking-wide">PRICES UPDATE DAILY - INQUIRE FOR TODAY'S BEST LOCAL RATE</span>
+        </div>
+      )}
       <span className="text-[#FFB703] font-bold text-[0.85rem] uppercase tracking-widest">{subtitle}</span>
       <h2 className={`text-4xl sm:text-5xl font-extrabold mt-3 mb-5 ${isDark ? 'text-white drop-shadow-lg' : 'text-[#0F1F3D]'}`}>{title}</h2>
       <p className={`text-lg max-w-2xl mx-auto ${isDark ? 'text-white/90 drop-shadow-md' : 'text-gray-600'}`}>{desc}</p>
@@ -106,9 +133,30 @@ function SectionHeader({ subtitle, title, desc, isDark = false }: { subtitle: st
   );
 }
 
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+
 export default function ProductSection() {
   const six = useMediaSection("6kg Gallery");
   const thirteen = useMediaSection("13kg Gallery");
+
+  // Fetch accessory prices from the new Supabase table
+  const { data: dbAccessories } = useQuery({
+    queryKey: ["accessories_pricing"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("accessories").select("*");
+      if (error) throw error;
+      return data;
+    },
+    // Don't throw errors if table doesn't exist yet (before SQL run)
+    retry: false,
+  });
+
+  const getAccessoryPrice = (brandName: string) => {
+    if (!dbAccessories) return null;
+    const match = dbAccessories.find((a: any) => a.item_name === brandName);
+    return match ? match.price : null;
+  };
 
   const sixCards: Cyl[] = six.items.length
     ? six.items.map((m, idx) => ({
@@ -140,6 +188,7 @@ export default function ProductSection() {
         <div className="container mx-auto px-4">
           <SectionHeader 
             isDark={true}
+            showDailyPriceBanner={true}
             subtitle="Household Essentials" 
             title="6kg Gas Cylinders" 
             desc="Light, portable, and ideal for daily cooking. We stock all major brands. Order a new cylinder or request a lightning-fast refill." 
@@ -157,6 +206,7 @@ export default function ProductSection() {
         <div className="container mx-auto px-4">
           <SectionHeader 
             isDark={true}
+            showDailyPriceBanner={true}
             subtitle="Bigger & Better Value" 
             title="13kg Gas Cylinders" 
             desc="Ideal for families and small restaurants. Lasts longer and saves you from frequent refills." 
@@ -179,7 +229,13 @@ export default function ProductSection() {
           />
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {accessories.map((c, i) => (
-              <ProductPod key={`acc-${c.brand}-${i}`} c={c} i={i} category="Accessory" />
+              <ProductPod 
+                key={`acc-${c.brand}-${i}`} 
+                c={c} 
+                i={i} 
+                category="Accessory" 
+                price={getAccessoryPrice(c.brand)} 
+              />
             ))}
           </div>
         </div>

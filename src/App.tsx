@@ -20,6 +20,7 @@ import StockLog from "./admin/pages/StockLog";
 import Reports from "./admin/pages/Reports";
 import Inquiries from "./admin/pages/Inquiries";
 import StaffUsers from "./admin/pages/StaffUsers";
+import AccessoriesManager from "./admin/pages/AccessoriesManager";
 
 const queryClient = new QueryClient();
 
@@ -60,6 +61,7 @@ const App = () => (
             <Route path="/admin/reports" element={<Protected ownerOnly><Reports /></Protected>} />
             <Route path="/admin/inquiries" element={<Protected ownerOnly><Inquiries /></Protected>} />
             <Route path="/admin/staff" element={<Protected ownerOnly><StaffUsers /></Protected>} />
+            <Route path="/admin/accessories" element={<Protected ownerOnly><AccessoriesManager /></Protected>} />
 
             {/* Shared (Owner + Staff) routes */}
             <Route path="/admin/log-sale" element={<Protected><LogSale /></Protected>} />

@@ -26,6 +26,7 @@ const NAV: NavItem[] = [
   { to: "/admin/sales", label: "Sales History", icon: ListOrdered, ownerOnly: false, staffLabel: "My Sales" },
   { to: "/admin/balances", label: "Balances Owed", icon: Wallet, ownerOnly: false, staffLabel: "Balances" },
   { to: "/admin/customers", label: "Customers", icon: Users, ownerOnly: true },
+  { to: "/admin/accessories", label: "Accessories", icon: Package, ownerOnly: true },
   { to: "/admin/media", label: "Media Manager", icon: ImageIcon, ownerOnly: true },
   { to: "/admin/brands", label: "Brands Manager", icon: Tag, ownerOnly: true },
   { to: "/admin/stock", label: "Stock Log", icon: Package, ownerOnly: true },
